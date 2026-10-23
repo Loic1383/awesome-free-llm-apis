@@ -10,7 +10,6 @@ const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data.json'), 'utf8'));
 const SPONSORS_PAGE = 'https://github.com/sponsors/mnfst';
 // GitHub traffic stats only cover 14 days: refresh this figure once a month.
 const MONTHLY_VIEWS = '145,000';
-const GOLD_PLACES = 3;
 
 // Gold sponsors also need a `tagline`: one line describing their product.
 const SPONSORS = [
@@ -31,10 +30,8 @@ function sponsorLogo({name, url, logoLight, logoDark}, width) {
 function sponsorsSection() {
 	const gold = SPONSORS.filter(s => s.tier === 'gold');
 	const sponsors = SPONSORS.filter(s => s.tier === 'sponsor');
-	const goldLeft = GOLD_PLACES - gold.length;
-
 	const goldBlocks = gold.map(s => `<p align="center">\n${sponsorLogo(s, LOGO_WIDTH.gold)}\n\t<br>\n\t<sub>${s.tagline}</sub>\n</p>`);
-	if (goldLeft > 0) {
+	if (gold.length === 0) {
 		goldBlocks.push(`<p align="center">\n${sponsorLogo({
 			name: 'Your logo here',
 			url: SPONSORS_PAGE,
@@ -48,8 +45,7 @@ function sponsorsSection() {
 		sections.push(`<h3 align="center">Sponsors</h3>\n\n<p align="center">\n${sponsors.map(s => sponsorLogo(s, LOGO_WIDTH.sponsor)).join('\n')}\n</p>`);
 	}
 
-	const placesLeft = goldLeft > 0 ? ` · ${goldLeft} of ${GOLD_PLACES} Gold places left` : '';
-	sections.push(`<p align="center"><sub>About ${MONTHLY_VIEWS} views a month from developers · <a href="${SPONSORS_PAGE}">Become a sponsor</a>${placesLeft}</sub></p>`);
+	sections.push(`<p align="center"><sub>About ${MONTHLY_VIEWS} views a month from developers · <a href="${SPONSORS_PAGE}">Become a sponsor</a></sub></p>`);
 
 	return sections.join('\n\n');
 }

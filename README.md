@@ -40,7 +40,7 @@
 	</a>
 </p>
 
-<p align="center"><sub>About 145,000 views a month from developers · <a href="https://github.com/sponsors/mnfst">Become a sponsor</a> · 3 of 3 Gold places left</sub></p>
+<p align="center"><sub>About 145,000 views a month from developers · <a href="https://github.com/sponsors/mnfst">Become a sponsor</a></sub></p>
 
 <hr>
 
