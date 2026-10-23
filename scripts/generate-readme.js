@@ -12,6 +12,7 @@ const SPONSORS_PAGE = 'https://github.com/sponsors/mnfst';
 const MONTHLY_VIEWS = '145,000';
 const GOLD_PLACES = 3;
 
+// Gold sponsors also need a `tagline`: one line describing their product.
 const SPONSORS = [
 	{name: 'Okapi', url: 'https://okapi.bot', tier: 'sponsor', logoLight: 'media/okapi-logo-light.svg', logoDark: 'media/okapi-logo-dark.svg'},
 ];
@@ -32,17 +33,17 @@ function sponsorsSection() {
 	const sponsors = SPONSORS.filter(s => s.tier === 'sponsor');
 	const goldLeft = GOLD_PLACES - gold.length;
 
-	const goldLogos = gold.map(s => sponsorLogo(s, LOGO_WIDTH.gold));
+	const goldBlocks = gold.map(s => `<p align="center">\n${sponsorLogo(s, LOGO_WIDTH.gold)}\n\t<br>\n\t<sub>${s.tagline}</sub>\n</p>`);
 	if (goldLeft > 0) {
-		goldLogos.push(sponsorLogo({
+		goldBlocks.push(`<p align="center">\n${sponsorLogo({
 			name: 'Your logo here',
 			url: SPONSORS_PAGE,
 			logoLight: 'media/sponsor-slot-light.svg',
 			logoDark: 'media/sponsor-slot-dark.svg',
-		}, LOGO_WIDTH.gold));
+		}, LOGO_WIDTH.gold)}\n</p>`);
 	}
 
-	const sections = [`<h3 align="center">Gold sponsors</h3>\n\n<p align="center">\n${goldLogos.join('\n')}\n</p>`];
+	const sections = [`<h3 align="center">Gold sponsors</h3>\n\n${goldBlocks.join('\n\n')}`];
 	if (sponsors.length > 0) {
 		sections.push(`<h3 align="center">Sponsors</h3>\n\n<p align="center">\n${sponsors.map(s => sponsorLogo(s, LOGO_WIDTH.sponsor)).join('\n')}\n</p>`);
 	}
