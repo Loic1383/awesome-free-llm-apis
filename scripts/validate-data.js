@@ -2,7 +2,7 @@
 'use strict';
 
 // Structural checks on data.json. CI runs this on every pull request, and the
-// maintenance bot only merges its own PR when it passes.
+// data sync runs it before it opens a PR.
 // Usage: node scripts/validate-data.js [path/to/data.json]
 
 const fs = require('fs');
