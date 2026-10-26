@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T11:38:55.033Z",
+  "generatedAt": "2026-10-26T12:21:00.128Z",
   "summary": {
     "facts": 546,
     "sourced": 254,
@@ -3604,7 +3604,7 @@
     {
       "url": "https://ai-gateway.kilo.ai/api/v1/models",
       "httpStatus": 200,
-      "chars": 542763,
+      "chars": 542757,
       "state": "OK",
       "error": null
     },
@@ -3625,7 +3625,7 @@
     {
       "url": "https://api.llm7.io/v1/models",
       "httpStatus": 200,
-      "chars": 69753,
+      "chars": 69742,
       "state": "OK",
       "error": null
     },
