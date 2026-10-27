@@ -7,28 +7,30 @@ description: Guide users through obtaining and configuring free API keys for LLM
 
 Help users pick a free LLM provider and configure their API key. Every provider here has a permanent free tier, no credit card needed.
 
+The list in this skill follows `data.json` of the repository. When a limit or a model looks wrong, `data.json` and its footnotes are the source of truth.
+
 ## Provider Selection
 
 Ask the user what matters most, then recommend accordingly:
 
 | Priority | Best picks |
 |---|---|
-| Highest rate limits | Groq (30 RPM, 14.4K RPD), Cerebras (30 RPM, 14.4K RPD) |
-| Largest model selection | Cloudflare Workers AI (49+ models), OpenRouter (32+ models) |
-| Strongest proprietary models | Google Gemini (Gemini 2.5 Pro), GitHub Models (GPT-4o) |
-| Fastest inference | Groq, Cerebras (both optimized for speed) |
-| Highest token budget | Mistral AI (1B tokens/month) |
-| European provider | Mistral AI (EU), LLM7.io (UK) |
-| No signup required | LLM7.io (basic tier works without token) |
+| Most requests per day | NVIDIA NIM (40 RPM, 10,000 RPD), Groq (30 RPM, 1,000 RPD) |
+| Largest model selection | NVIDIA NIM (100+ models), Cloudflare Workers AI (60+ models), OpenRouter (17 free models) |
+| Strongest proprietary models | Google Gemini (Gemini 3.8 Flash), Mistral AI (Mistral Medium 3.5), Cohere (Command A+, non-commercial only) |
+| Fastest inference | Groq (LPU inference) |
+| No signup, no key | OVHcloud AI Endpoints (2 RPM per model), Kilo Code (200 req/hr), LLM7.io |
+| European provider | Mistral AI (FR), OVHcloud AI Endpoints (FR, hosted in the EU), LLM7.io (UK) |
+| Roleplay and storytelling | Aion Labs |
 
 ### Provider categories
 
 **Provider APIs** -- run by the companies that train the models:
-- Google Gemini, Cohere, Mistral AI, Zhipu AI
+- Aion Labs, Cohere, Google Gemini, Mistral AI, Z AI (Zhipu AI)
 - See [references/provider-apis.md](references/provider-apis.md) for setup instructions.
 
 **Inference providers** -- third-party platforms hosting open-weight models:
-- GitHub Models, Gonka Broker, NVIDIA NIM, Groq, Cerebras, Cloudflare Workers AI, LLM7.io, Kluster AI, OpenRouter, Hugging Face
+- Cloudflare Workers AI, Gonka Broker, Groq, Kilo Code, LLM7.io, ModelScope, NVIDIA NIM, Ollama Cloud, OpenRouter, OVHcloud AI Endpoints, SiliconFlow
 - See [references/inference-providers.md](references/inference-providers.md) for setup instructions.
 
 ## Workflow
@@ -55,12 +57,15 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-Replace KEY, BASE_URL, and MODEL_NAME with values from the provider's setup guide.
+Replace KEY, BASE_URL, and MODEL_NAME with values from the provider's setup guide. For the providers that need no key, use the curl example of their guide.
 
 ## Key Notes
 
 - All endpoints work with the OpenAI SDK unless noted.
-- RPM = requests per minute. RPD = requests per day.
-- Google Gemini's free tier is blocked in the EEA, UK, and Switzerland.
-- "Limits undocumented" = the provider doesn't publish rate limits.
+- RPM = requests per minute. RPD = requests per day. TPD = tokens per day.
+- Google Gemini's free tier is available in the EU, UK, and Switzerland, but its terms require Paid Services when you make an app available to users there. Outside the EEA, Switzerland and the UK, free-tier prompts may be used to improve Google products.
+- Mistral AI free mode may use prompts for training unless you opt out. OpenRouter free providers may log prompts.
+- Cohere's trial key is for non-commercial use only and allows 1,000 API calls/month.
+- ModelScope and SiliconFlow require real-name verification with mainland-Chinese identity documents.
+- Free model lineups change often (Kilo Code, LLM7.io, OpenRouter, Gonka Broker). Check the provider's live model list before hardcoding a model ID.
 - Don't hardcode API keys. Use environment variables or a secrets manager.

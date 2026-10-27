@@ -8,19 +8,26 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
       - name: Validate data.json
         run: node scripts/validate-data.js
       - name: README generates from data.json
-        run: node scripts/generate-readme.js
-      - name: Sources and links still match data.json
         run: |
           git fetch -q origin main
+          changed="$(git diff --name-only origin/main...HEAD)"
+          node scripts/generate-readme.js
+          # A PR that touches README.md or the generator must leave README.md exactly as the
+          # generator writes it. A PR that only changes data.json gets its README on merge.
+          if echo "$changed" | grep -qxE 'README.md|scripts/generate-readme.js'; then
+            git diff --exit-code README.md || { echo "README.md does not match scripts/generate-readme.js. Edit data.json or the generator, not README.md."; exit 1; }
+          fi
+      - name: Sources and links still match data.json
+        run: |
           changed="$(git diff --name-only origin/main...HEAD)"
           if echo "$changed" | grep -qx sources.json; then
             node scripts/check-sources.js --out /tmp/sources-report.json --strict
